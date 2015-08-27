@@ -38,6 +38,13 @@ UI: 用户图形界面，在headless模式下会无效。
 Audio: 负责声音输出，在SOUND宏被关闭的情况下，会无效。
 Engine: 创建其他的子系统，控制主循环和帧率限制。
 
-以下的子系统是可选择的，如果它们没有创建，那么GetSubsytem()会返回null
+以下的子系统是可选择的，如果它们没有创建，那么GetSubsytem()会返回null。
 
-Profiler: 
+Profiler: 通过使用系统性能计数器，提供了一些分层的函数来进行执行时间的测量，该子系统仅当profiling被编译进去时才会存在(通过CMakeLists.txt配置)。
+Graphics: 管理应用窗口，渲染上下文以及资源。在headless模式未开启时存在。
+Renderer: 负责渲染3D场景，并且管理渲染的质量，在headless模式未开启时存在。
+Script: 提供了AngelScript的执行环境，需要手动创建和注册。
+Console: 提供了与AngleScript交互的控制台以及日志功能。通过CreateConsole()创建。
+DebugHud: 显示渲染模式的信息和统计，以及剖面数据。通过CreateDebugHud()来创建。
+
+在脚本中，子系统可以通过全局的属性: time, fileSystem, log, cache, network, input, ui, audio, engine, graphics, renderer, script, console, debugHud来访问。需要注意的是由于WorkQueue和Profiler的底层特性，它们在脚本中是不能使用的。
